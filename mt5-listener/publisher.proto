@@ -1,0 +1,168 @@
+syntax = "proto3";
+
+package com.vitalgateway.common.grpc.mt5listener.publisher;
+
+option java_package = "com.vitalgateway.common.grpc.mt5listener.publish.publisher";
+option java_outer_classname = "PublisherProto";
+
+import "google/protobuf/empty.proto";
+
+service DealPublisher {
+    rpc SubscribeDeal (google.protobuf.Empty) returns (stream MTDeal) {}
+}
+message MTDeal {
+    int64 Deal = 1;
+    string ExternalID = 2;
+    int64 Login = 3;
+    int64 Dealer = 4;
+    int64 Order = 5;
+    int32 Action = 6;
+    int32 Entry = 7;
+    int32 Digits = 8;
+    int32 DigitsCurrency = 9;
+    double ContractSize = 10;
+    int64 Time = 11;
+    string Symbol = 12;
+    double Price = 13;
+    double PriceSL = 14;
+    double PriceTP = 15;
+    int64 Volume = 16;
+    int64 VolumeExt = 17;
+    double Profit = 18;
+    double Value = 19;
+    double Storage = 20;
+    double Commission = 21;
+    double RateProfit = 22;
+    double RateMargin = 23;
+    uint64 ExpertID = 24;
+    int64 PositionID = 25;
+    string Comment = 26;
+    double ProfitRaw = 27;
+    double PricePosition = 28;
+    int64 VolumeClosed = 29;
+    double TickValue = 30;
+    double TickSize = 31;
+    int32 Flags = 32;
+    int64 TimeMsc = 33;
+    int32 Reason = 34;
+    string Gateway = 35;
+    double PriceGateway = 36;
+    double MarketBid = 37;
+    double MarketAsk = 38;
+    double MarketLast = 39;
+    int32 ModificationFlags = 40;
+    string publish_event = 41;
+}
+
+service OrderPublisher {
+    rpc SubscribeOrder (google.protobuf.Empty) returns (stream MTOrder) {}
+}
+message MTOrder {
+    int64 Order = 1;
+    string ExternalID = 2;
+    int64 Login = 3;
+    int64 Dealer = 4;
+    string Symbol = 5;
+    int32 Digits = 6;
+    int32 DigitsCurrency = 7;
+    double ContractSize = 8;
+    int32 State = 9;
+    int32 Reason = 10;
+    int64 TimeSetup = 11;
+    int64 TimeExpiration = 12;
+    int64 TimeDone = 13;
+    int32 Type = 14;
+    int32 TypeFill = 15;
+    int32 TypeTime = 16;
+    double PriceOrder = 17;
+    double PriceTrigger = 18;
+    double PriceCurrent = 19;
+    double PriceSL = 20;
+    double PriceTP = 21;
+    int32 VolumeInitial = 22;
+    int32 VolumeCurrent = 23;
+    uint64 ExpertID = 24;
+    int64 PositionID = 25;
+    int64 PositionByID = 26;
+    string Comment = 27;
+    int32 ActivationMode = 28;
+    int64 ActivationTime = 29;
+    double ActivationPrice = 30;
+    int32 ActivationFlags = 31;
+    int64 TimeSetupMsc = 32;
+    int64 TimeDoneMsc = 33;
+    double RateMargin = 34;
+    int32 ModificationFlags = 35;
+    string publish_event = 36;
+}
+
+service PositionPublisher {
+    rpc SubscribePosition (google.protobuf.Empty) returns (stream MTPosition) {}
+}
+message MTPosition {
+    int64 Login = 1;
+    string Symbol = 2;
+    int32 Action = 3;
+    int32 Digits = 4;
+    int32 DigitsCurrency = 5;
+    double ContractSize = 6;
+    int64 Position = 7;
+    string ExternalID = 8;
+    int64 TimeCreate = 9;
+    int64 TimeUpdate = 10;
+    int64 TimeCreateMsc = 11;
+    int64 TimeUpdateMsc = 12;
+    double PriceOpen = 13;
+    double PriceCurrent = 14;
+    double PriceSL = 15;
+    double PriceTP = 16;
+    int64 Volume = 17;
+    double Profit = 18;
+    double Storage = 19;
+    double RateProfit = 20;
+    double RateMargin = 21;
+    uint64 ExpertID = 22;
+    int64 ExpertPositionID = 23;
+    string Comment = 24;
+    int64 Dealer = 25;
+    int32 ActivationMode = 26;
+    int64 ActivationTime = 27;
+    double ActivationPrice = 28;
+    int32 ActivationFlags = 29;
+    int32 ModificationFlags = 30;
+    int32 Reason = 31;
+    string publish_event = 32;
+}
+
+service TickPublisher {
+    // 流式订阅，流式推送
+    rpc StreamSubscribeTick (stream Symbols) returns (stream MTTickShort);
+    // 查询已有的客户端列表关系
+    rpc QueryTickClients (google.protobuf.Empty) returns (Clients);
+    rpc QueryClientSymbols (google.protobuf.Empty) returns (ClientTickSubscribes);
+}
+message Symbols {
+    repeated string symbols = 1;
+}
+
+message MTTickShort {
+    string symbol = 1;
+    double ask = 2;
+    double bid = 3;
+    int64 datetime = 4;
+    int64 datetime_msc = 5;
+    int32 flags = 6;
+    double last = 7;
+    int64 volume = 8;
+    int64 volume_ext = 9;
+}
+message Clients {
+    repeated string client_ids = 1;
+}
+message ClientTickSubscribes {
+    repeated ClientTickSubscribe client_tick_subscribes = 1;
+}
+message ClientTickSubscribe {
+    string client_id = 1;
+    string symbol = 2;
+}

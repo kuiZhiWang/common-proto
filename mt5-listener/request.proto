@@ -1,0 +1,184 @@
+syntax = "proto3";
+
+package com.vitalgateway.common.grpc.mt5listener.request;
+
+option java_package = "com.vitalgateway.common.grpc.mt5listener.request";
+option java_outer_classname = "RequestProto";
+
+service TickService {
+    rpc ChartRequest (ChartRequestBody) returns (ChartResponse);
+    rpc TickLast (TickLastRequest) returns (TickLastResponse);
+    rpc TickStat (TickStatRequest) returns (TickStatResponse);
+}
+message ChartRequestBody {
+    string symbol = 1;
+    int64 from_date = 2;
+    int64 to_date = 3;
+}
+message ChartResponse {
+    string rcode = 1;
+    repeated MTChartBar bars = 2;
+}
+message MTChartBar {
+    int64 datetime = 1;
+    double open = 2;
+    double high = 3;
+    double low = 4;
+    double close = 5;
+    int64 tick_volume = 6;
+    int32 spread = 7;
+    int64 volume = 8;
+}
+message TickLastRequest {
+    string symbol = 1;
+    string group = 2;
+    string server_name = 3;
+}
+message MTTickShort {
+    string symbol = 1;
+    double ask = 2;
+    double bid = 3;
+    int64 datetime = 4;
+    int64 datetime_msc = 5;
+    int32 flags = 6;
+    double last = 7;
+    int64 volume = 8;
+    int64 volume_ext = 9;
+}
+message TickLastResponse {
+    string rcode = 1;
+    MTTickShort tick_short = 2;
+}
+message TickStatRequest {
+    string symbol = 1;
+    string server_name = 2;
+}
+message TickStatResponse {
+    string rcode = 1;
+    MTTickStat tick_stat = 2;
+}
+message MTTickStat {
+    string symbol = 1;
+    int64 datetime = 2;
+    double bid_high = 3;
+    double bid_low = 4;
+    double ask_high = 5;
+    double ask_low = 6;
+    double last_high = 7;
+    double last_low = 8;
+    uint64 vol_high = 9;
+    uint64 vol_low = 10;
+    uint64 trade_deals = 11;
+    uint64 trade_volume = 12;
+    uint64 trade_turnover = 13;
+    uint64 trade_interest = 14;
+    uint64 trade_buy_orders = 15;
+    uint64 trade_buy_volume = 16;
+    uint64 trade_sell_orders = 17;
+    uint64 trade_sell_volume = 18;
+    uint64 trade_volume_ext = 19;
+    uint64 trade_buy_volume_ext = 20;
+    uint64 trade_sell_volume_ext = 21;
+    uint64 vol_high_ext = 22;
+    uint64 vol_low_ext = 23;
+    repeated int32 trade_reserved = 24;
+    int64 datetime_msc = 25;
+    double price_open = 26;
+    double price_close = 27;
+    double price_aw = 28;
+    double price_obsolete = 29;
+    double price_volatility = 30;
+    double price_theortical = 31;
+    double price_greeks_delta = 32;
+    double price_greeks_theta = 33;
+    double price_greeks_gamma = 34;
+    double price_greeks_vega = 35;
+    double price_greeks_rho = 36;
+    double price_greeks_omega = 37;
+    double price_sensitivity = 38;
+    repeated int32 price_reserved = 39;
+}
+
+service UserService {
+    rpc UserGet (LoginRequest) returns (MTUser);
+    rpc AccountGet (LoginRequest) returns (MTAccount);
+}
+message LoginRequest {
+    uint32 login = 1;
+    string server_name = 2;
+}
+message MTUser {
+    string account = 1;
+    string address = 2;
+    int64 agent = 3;
+    double balance = 4;
+    double balance_prev_day = 5;
+    double balance_prev_month = 6;
+    int64 cert_serial_number = 7;
+    string city = 8;
+    string client_id = 9;
+    int64 color = 10;
+    string comment = 11;
+    double commission_agent_daily = 12;
+    double commission_agent_monthly = 13;
+    double commission_daily = 14;
+    double commission_monthly = 15;
+    string company = 16;
+    string country = 17;
+    double credit = 18;
+    string email = 19;
+    double equity_prev_day = 20;
+    double equity_prev_month = 21;
+    string first_name = 22;
+    string group = 23;
+    string id = 24;
+    double interest_rate = 25;
+    uint32 language = 26;
+    int64 last_access = 27;
+    string last_ip = 28;
+    string last_name = 29;
+    int64 last_pass_change = 30;
+    string lead_campaign = 31;
+    string lead_source = 32;
+    uint32 leverage = 33;
+    int64 limit_orders = 34;
+    int64 limit_positions_value = 35;
+    int64 login = 36;
+    string middle_name = 37;
+    string mqid = 38;
+    string name = 39;
+    string otp_secret = 40;
+    string phone = 41;
+    string phone_password = 42;
+    int64 registration = 43;
+    int64 rights = 44;
+    string state = 45;
+    string status = 46;
+    string zip_code = 47;
+}
+message MTAccount {
+    double assets = 1;
+    double balance = 2;
+    double blocked_commission = 3;
+    double blocked_profit = 4;
+    double credit = 5;
+    int32 currency_digits = 6;
+    double equity = 7;
+    double floating = 8;
+    double liabilities = 9;
+    int64 login = 10;
+    double margin = 11;
+    double margin_free = 12;
+    double margin_initial = 13;
+    double margin_level = 14;
+    int64 margin_leverage = 15;
+    double margin_maintenance = 16;
+    double obsolete_value = 17;
+    double profit = 18;
+    int64 so_activation = 19;
+    double so_equity = 20;
+    double so_level = 21;
+    double so_margin = 22;
+    int64 so_time = 23;
+    double storage = 24;
+}

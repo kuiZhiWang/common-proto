@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.vitalgateway.common.grpc.mt5listener.publics;
+
+option java_package = "com.vitalgateway.common.grpc.mt5listener.publics";
+
+import "google/protobuf/empty.proto";
+
+
+service PublicService {
+    rpc HealthCheck (google.protobuf.Empty) returns (HealthCheckResponse) {}
+}
+
+message HealthCheckResponse {
+    string status = 1;
+}
